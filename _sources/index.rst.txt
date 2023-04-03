@@ -22,9 +22,39 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: For Python users
 
-   ./installation/index
-   ./streaming_asr/index
-   ./offline_asr/index
-   faq
+   ./python/huggingface/index
+   ./python/installation/index
+   ./python/streaming_asr/index
+   ./python/offline_asr/index
+   ./python/faq
+
+.. toctree::
+   :maxdepth: 2
+   :caption: For C++ users
+
+   ./cpp/installation/index
+   ./cpp/pretrained_models/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ncnn
+
+   ./ncnn/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: onnx
+
+   ./onnx/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Triton
+
+   ./triton/overview
+   ./triton/installation/index
+   ./triton/server/index
+   ./triton/client/index
+   ./triton/perf/index
