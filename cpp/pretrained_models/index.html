@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
@@ -16,6 +16,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -42,6 +43,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
@@ -88,7 +90,7 @@
            <div itemprop="articleBody">
              
   <section id="pre-trained-models">
-<span id="pretrained-models"></span><h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this headline"></a></h1>
+<span id="pretrained-models"></span><h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
 <p>Two kinds of end-to-end (E2E) models are supported by <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>:</p>
 <ul class="simple">
 <li><p>CTC</p></li>
@@ -101,7 +103,7 @@ To the best of our knowledge, only <a class="reference external" href="https://g
 only transducer models from <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> are currently supported.</p>
 <p>For CTC-based models, we support any type of models trained using CTC loss
 as long as you can export the model via torchscript. Models from the following
-frameworks are currently supported: <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>, <a class="reference external" href="https://github.com/k2-fsa/sherpa">wenet</a>, and <a class="reference external" href="https://github.com/pytorch/audio">torchaudio</a> (Wav2Vec 2.0).
+frameworks are currently supported: <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>, <a class="reference external" href="https://github.com/wenet-e2e/wenet">WeNet</a>, and <a class="reference external" href="https://github.com/pytorch/audio">torchaudio</a> (Wav2Vec 2.0).
 If you have a CTC model and want it to be supported in <cite>sherpa</cite>, please
 create an issue at <a class="reference external" href="https://github.com/k2-fsa/sherpa/issues">https://github.com/k2-fsa/sherpa/issues</a>.</p>
 </div>
@@ -130,7 +132,7 @@ anything. See <a class="reference external" href="https://huggingface.co/spaces/
 <a class="reference external" href="https://colab.research.google.com/drive/1RdU06GcytTpI-r8vkQ7NkI0ugytnwJVB?usp=sharing"><img alt="Sherpa offline recognition python api colab notebook" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
 for you to try offline recognition step by step.</p>
 <p>It shows how to install sherpa and use it as offline recognizer,
-which supports the models from icefall, the wenet framework and torchaudio.</p>
+which supports the models from icefall, the <a class="reference external" href="https://github.com/wenet-e2e/wenet">WeNet</a> framework and torchaudio.</p>
 </div>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Pretrained models</span></p>
@@ -241,7 +243,7 @@ which supports the models from icefall, the wenet framework and torchaudio.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, sherpa development team.</p>
+    <p>&#169; Copyright 2022-2024, sherpa development team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

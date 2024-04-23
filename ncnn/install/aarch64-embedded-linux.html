@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Embedded Linux (aarch64) &mdash; sherpa 1.3 documentation</title>
@@ -16,6 +16,7 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
@@ -44,6 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
@@ -55,6 +57,7 @@
 <p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="videos.html">Installation videos</a></li>
 <li class="toctree-l3"><a class="reference internal" href="linux.html">Linux</a></li>
@@ -71,6 +74,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
@@ -117,7 +121,7 @@
            <div itemprop="articleBody">
              
   <section id="embedded-linux-aarch64">
-<h1>Embedded Linux (aarch64)<a class="headerlink" href="#embedded-linux-aarch64" title="Permalink to this headline"></a></h1>
+<h1>Embedded Linux (aarch64)<a class="headerlink" href="#embedded-linux-aarch64" title="Permalink to this heading"></a></h1>
 <p>This page describes how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> for embedded Linux (aarch64, 64-bit)
 with cross-compiling on an x86 machine with Ubuntu OS.</p>
 <div class="admonition caution">
@@ -140,7 +144,7 @@ use this document. Refer to <a class="reference internal" href="linux.html#insta
 <p>This page is for cross-compiling.</p>
 </div>
 <section id="install-toolchain">
-<span id="sherpa-ncnn-install-for-aarch64-embedded-linux"></span><h2>Install toolchain<a class="headerlink" href="#install-toolchain" title="Permalink to this headline"></a></h2>
+<span id="sherpa-ncnn-install-for-aarch64-embedded-linux"></span><h2>Install toolchain<a class="headerlink" href="#install-toolchain" title="Permalink to this heading"></a></h2>
 <p>The first step is to install a toolchain for cross-compiling.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -155,6 +159,10 @@ which has been uploaded to <a class="reference external" href="https://huggingfa
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/software
 <span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/software
 wget<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+
+<span class="c1"># For users from China</span>
+<span class="c1"># 中国国内用户，如果访问不了 huggingface, 请使用</span>
+<span class="c1"># wget https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz</span>
 tar<span class="w"> </span>xvf<span class="w"> </span>gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
 </pre></div>
 </div>
@@ -178,7 +186,7 @@ run:</p>
 <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>.</p>
 </section>
 <section id="build-sherpa-ncnn">
-<h2>Build sherpa-ncnn<a class="headerlink" href="#build-sherpa-ncnn" title="Permalink to this headline"></a></h2>
+<h2>Build sherpa-ncnn<a class="headerlink" href="#build-sherpa-ncnn" title="Permalink to this heading"></a></h2>
 <p>Finally, let us build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
 <span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
@@ -203,7 +211,7 @@ the microphone with <a class="reference external" href="https://en.wikipedia.org
 </div>
 </section>
 <section id="sherpa-ncnn-alsa">
-<span id="id1"></span><h2>sherpa-ncnn-alsa<a class="headerlink" href="#sherpa-ncnn-alsa" title="Permalink to this headline"></a></h2>
+<span id="id1"></span><h2>sherpa-ncnn-alsa<a class="headerlink" href="#sherpa-ncnn-alsa" title="Permalink to this heading"></a></h2>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>We recommend that you use <code class="docutils literal notranslate"><span class="pre">sherpa-ncnn-alsa</span></code> on embedded systems such
@@ -310,7 +318,7 @@ if you have any problems.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, sherpa development team.</p>
+    <p>&#169; Copyright 2022-2024, sherpa development team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

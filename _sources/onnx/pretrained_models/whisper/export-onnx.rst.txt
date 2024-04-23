@@ -20,8 +20,26 @@ from the following huggingface repositories:
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base.en>`_
  * - ``small.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small.en>`_
+ * - ``distil-small.en``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-small.en>`_
  * - ``medium.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium.en>`_
+ * - ``distil-medium.en``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-medium.en>`_
+ * - ``tiny``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny>`_
+ * - ``base``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base>`_
+ * - ``small``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small>`_
+ * - ``medium``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium>`_
+
+.. hint::
+
+    You can also download them from
+
+      `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_
 
 If you want to export the models by yourself or/and want to learn how the models
 are exported, please read below.
@@ -104,7 +122,7 @@ Now the generated files so far are as follows:
 
 ``*.ort`` are the corresponding `onnxruntime`_ format.
 
-To check whether the export model works correctly, we can use
+To check whether the exported model works correctly, we can use
 
   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/whisper/test.py>`_
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hotwords (Contextual biasing) &mdash; sherpa 1.3 documentation</title>
@@ -16,11 +16,12 @@
         <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
         <script src="../../_static/jquery.js"></script>
         <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="../../_static/doctools.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Pre-trained models" href="../pretrained_models/index.html" />
+    <link rel="next" title="KWS Open vocabulary keyword spotting (Customized keyword spotting)" href="../kws/index.html" />
     <link rel="prev" title="Non-streaming WebSocket server and client" href="../websocket/offline-websocket.html" /> 
 </head>
 
@@ -44,6 +45,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
@@ -59,11 +61,14 @@
 <p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
@@ -78,7 +83,12 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">KWS Open vocabulary keyword spotting (Customized keyword spotting)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spolken-language-identification/index.html">Spoken language identification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
 </ul>
 </li>
@@ -114,11 +124,11 @@
            <div itemprop="articleBody">
              
   <section id="hotwords-contextual-biasing">
-<span id="sherpa-onnx-hotwords"></span><h1>Hotwords (Contextual biasing)<a class="headerlink" href="#hotwords-contextual-biasing" title="Permalink to this headline"></a></h1>
+<span id="sherpa-onnx-hotwords"></span><h1>Hotwords (Contextual biasing)<a class="headerlink" href="#hotwords-contextual-biasing" title="Permalink to this heading"></a></h1>
 <p>In this section, we describe how we implement the hotwords (aka contextual biasing)
 feature with an Aho-corasick automaton and how to use it in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
 <section id="what-are-hotwords">
-<h2>What are hotwords<a class="headerlink" href="#what-are-hotwords" title="Permalink to this headline"></a></h2>
+<h2>What are hotwords<a class="headerlink" href="#what-are-hotwords" title="Permalink to this heading"></a></h2>
 <p>Current ASR systems work very well for general cases, but they sometimes fail to
 recognize special words/phrases (aka hotwords) like rare words, personalized
 information etc. Usually, those words/phrases will be recognized as the words/phrases
@@ -128,7 +138,7 @@ to the ASR systems to boost those words/phrases. Normally, we call this kind of
 boosting task contextual biasing (aka hotwords recognition).</p>
 </section>
 <section id="how-do-we-implement-it-with-an-aho-corasick">
-<h2>How do we implement it with an Aho-corasick<a class="headerlink" href="#how-do-we-implement-it-with-an-aho-corasick" title="Permalink to this headline"></a></h2>
+<h2>How do we implement it with an Aho-corasick<a class="headerlink" href="#how-do-we-implement-it-with-an-aho-corasick" title="Permalink to this heading"></a></h2>
 <p>We first construct an Aho-corasick automaton on those given hotwords (after tokenizing
 into tokens). Please refer to <a class="reference external" href="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm">https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm</a>
 for the construction details of Aho-corasick.</p>
@@ -161,13 +171,6 @@ the root state.</p>
 </div>
 <p><strong>The path is “SHELF”</strong></p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Frame</p></td>
 <td><p>Boost score</p></td>
@@ -226,13 +229,6 @@ At <code class="docutils literal notranslate"><span class="pre">frame</span> <sp
 the score for <code class="docutils literal notranslate"><span class="pre">SHEL</span></code> which is <code class="docutils literal notranslate"><span class="pre">4</span></code> (the node score of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">6</span></code>).</p>
 <p><strong>The path is “HI”</strong></p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Frame</p></td>
 <td><p>Boost score</p></td>
@@ -271,13 +267,6 @@ back to root state when finishing matching a path, so we cancel the boosting sco
 of <code class="docutils literal notranslate"><span class="pre">HI</span></code> which is <code class="docutils literal notranslate"><span class="pre">2</span></code> (the node score of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">8</span></code>).</p>
 <p><strong>The path is “THE”</strong></p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-<col style="width: 20%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>Frame</p></td>
 <td><p>Boost score</p></td>
@@ -329,7 +318,7 @@ re-train the models to use this feature.</p>
 </div>
 </section>
 <section id="how-to-use-hotwords-in-sherpa-onnx">
-<h2>How to use hotwords in sherpa-onnx<a class="headerlink" href="#how-to-use-hotwords-in-sherpa-onnx" title="Permalink to this headline"></a></h2>
+<h2>How to use hotwords in sherpa-onnx<a class="headerlink" href="#how-to-use-hotwords-in-sherpa-onnx" title="Permalink to this heading"></a></h2>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Currentlly, the hotwords feature is only supported in the
@@ -443,15 +432,13 @@ streaming model, you should use <code class="docutils literal notranslate"><span
 all support hotwords.</p>
 </div>
 <section id="modeling-unit-is-bpe">
-<h3>Modeling unit is bpe<a class="headerlink" href="#modeling-unit-is-bpe" title="Permalink to this headline"></a></h3>
+<h3>Modeling unit is bpe<a class="headerlink" href="#modeling-unit-is-bpe" title="Permalink to this heading"></a></h3>
 <p><strong>Download the model</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
 
-<span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-04-01
-<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01
-git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;*.onnx&quot;</span>
-git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;bpe.model&quot;</span>
-<span class="nb">cd</span><span class="w"> </span>..
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01<span class="w"> </span>exp
 </pre></div>
 </div>
@@ -474,7 +461,7 @@ ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-zipformer-en-202
 </pre></div>
 </div>
 <section id="c-api">
-<h4>C++ api<a class="headerlink" href="#c-api" title="Permalink to this headline"></a></h4>
+<h4>C++ api<a class="headerlink" href="#c-api" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
   <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -564,7 +551,7 @@ Real time factor (RTF): 1.522 / 23.340 = 0.065
 </div>
 </section>
 <section id="python-api">
-<h4>Python api<a class="headerlink" href="#python-api" title="Permalink to this headline"></a></h4>
+<h4>Python api<a class="headerlink" href="#python-api" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
     <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -627,7 +614,7 @@ Real time factor (RTF): 2.463/23.340 = 0.106
 </section>
 </section>
 <section id="modeling-unit-is-cjkchar">
-<h3>Modeling unit is cjkchar<a class="headerlink" href="#modeling-unit-is-cjkchar" title="Permalink to this headline"></a></h3>
+<h3>Modeling unit is cjkchar<a class="headerlink" href="#modeling-unit-is-cjkchar" title="Permalink to this heading"></a></h3>
 <p><strong>Download the model</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
 <span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-conformer-zh-stateless2-2023-05-23
@@ -659,7 +646,7 @@ ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-conformer-zh-sta
 </pre></div>
 </div>
 <section id="id1">
-<h4>C++ api<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h4>
+<h4>C++ api<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
     <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -737,7 +724,7 @@ Real time factor (RTF): 1.810 / 20.328 = 0.089
 </div>
 </section>
 <section id="id2">
-<h4>Python api<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h4>
+<h4>Python api<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
 <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -749,6 +736,27 @@ Real time factor (RTF): 1.810 / 20.328 = 0.089
 </pre></div>
 </div>
 <p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp-zh/test_wavs/3.wav
+文森特卡所是全球知名的法国性格派演员
+----------
+exp-zh/test_wavs/4.wav
+蒋友伯被拍到带着女儿出游
+----------
+exp-zh/test_wavs/5.wav
+周望军就落实控物价
+----------
+exp-zh/test_wavs/6.wav
+朱立南在上市见面会上表示
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 20.328 s
+Elapsed time: 2.653 s
+Real time factor (RTF): 2.653/20.328 = 0.131
+</pre></div>
+</div>
 <p><strong>Decoding with hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
     <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -793,7 +801,7 @@ Real time factor (RTF): 2.636/20.328 = 0.130
 </section>
 </section>
 <section id="modeling-unit-is-cjkchar-bpe">
-<h3>Modeling unit is cjkchar+bpe<a class="headerlink" href="#modeling-unit-is-cjkchar-bpe" title="Permalink to this headline"></a></h3>
+<h3>Modeling unit is cjkchar+bpe<a class="headerlink" href="#modeling-unit-is-cjkchar-bpe" title="Permalink to this heading"></a></h3>
 <p><strong>Download the model</strong></p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
 
@@ -824,7 +832,7 @@ ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-streaming-zipfor
 </pre></div>
 </div>
 <section id="id3">
-<h4>C++ api<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h4>
+<h4>C++ api<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> \
     <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -885,7 +893,7 @@ ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-streaming-zipfor
 </div>
 </section>
 <section id="id4">
-<h4>Python api<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h4>
+<h4>Python api<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
 <p><strong>Decoding without hotwords</strong></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">online</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
   <span class="o">--</span><span class="n">encoderexp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
@@ -919,8 +927,6 @@ Real time factor (RTF): 3.052/14.743 = 0.207
     <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
     <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span> <span class="n">modified_beam_search</span> \
     <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
-    <span class="o">--</span><span class="n">tokens</span><span class="o">-</span><span class="nb">type</span> <span class="n">cjkchar</span><span class="o">+</span><span class="n">bpe</span> \
-    <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">model</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">model</span> \
     <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span> <span class="n">hotwords_mix</span><span class="o">.</span><span class="n">txt</span> \
     <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span> <span class="mf">2.0</span> \
     <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
@@ -957,13 +963,13 @@ Real time factor (RTF): 3.060/14.743 = 0.208
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../websocket/offline-websocket.html" class="btn btn-neutral float-left" title="Non-streaming WebSocket server and client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="../pretrained_models/index.html" class="btn btn-neutral float-right" title="Pre-trained models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../kws/index.html" class="btn btn-neutral float-right" title="KWS Open vocabulary keyword spotting (Customized keyword spotting)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, sherpa development team.</p>
+    <p>&#169; Copyright 2022-2024, sherpa development team.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
